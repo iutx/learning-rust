@@ -1,4 +1,7 @@
 fn main() {
+    /*
+    Declare Variable
+    */
     let x = 5;
     println!("The value of x is {}", x);
 
@@ -28,5 +31,59 @@ fn main() {
 
     // constant is different with immutable variable
     const MAX_POINTS: u32 = 100_000;
-    println!("The const value is {}", MAX_POINTS)
+    println!("The const value is {}", MAX_POINTS);
+
+    /*
+    Variable Type
+    */
+    // int, uint: 8,16,32,64,arch(isize, usize: depending on arch)
+    let i1: u8 = 100;
+    let i2: i8 = 100;
+    println!("i8: {}, u8: {}", i1, i2);
+
+    let i3: isize = 100;
+    let i4: usize = 100;
+    println!("isize: {}, usize: {}", i3, i4);
+
+    // read more easily, means 1000
+    let i5 = 1_000;
+    println!("Read more easily {}", i5);
+
+    // 0xff -> 255
+    println!("0xff is  {}", 0xff);
+
+    // bytes A->65
+    println!("Bytes A is {}", b'A');
+
+    // [WARNING] integer overflow: can't impl in cargo 1.63.0 version.
+    // u8 range [0,255], if set value 256
+    // In debug mode, will panic: the literal `256` does not fit into the type `u8` whose range is `0..=255`
+    // In release mode, will skip panic, value 256 will overflow to min in range, result is 0, 257 result is 1.
+    // let overflow:u8 = 256;
+    // println!("u8 overflow, result is {}", overflow)
+
+
+    // tuple type
+    let tup: (i8, u8, f64) = (-10, 10, 1.0);
+    println!("Tuple index 0 is {}", tup.0);
+    println!("Tuple index 1 is {}", tup.1);
+    println!("Tuple index 2 is {}", tup.2);
+    // out of index, no field `3` on type `(i8, u8, f64)`
+    // println!("tuple index 3 is {}", tup.3);
+
+    // destructuring
+    let (x, y, z) = tup;
+    println!("Destructuring from tuple, value x is {}", x);
+    println!("Destructuring from tuple, value y is {}", y);
+    println!("Destructuring from tuple, value z is {}", z);
+
+    // array type
+    let array = [1, 3, 5, 7, 9];
+    println!("Array index 3 is {}", array[3]);
+
+    // initialize array, equal [10, 10, 10]
+    let init = [10; 3];
+    println!("Array initialize index 0 is {}", init[0])
+
+    // array type is static, dynamic array type is `vector`.
 }
