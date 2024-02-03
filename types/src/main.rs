@@ -3,7 +3,8 @@ fn main() {
     string_type();
     tuple_type();
     struct_type();
-    enum_type()
+    enum_type();
+    array_type()
 }
 
 fn base_type() {
@@ -70,16 +71,6 @@ fn base_type() {
     // In release mode, will skip panic, value 256 will overflow to min in range, result is 0, 257 result is 1.
     // let overflow:u8 = 256;
     // println!("u8 overflow, result is {}", overflow)
-
-    // array type
-    let array = [1, 3, 5, 7, 9];
-    println!("Array index 3 is {}", array[3]);
-
-    // initialize array, equal [10, 10, 10]
-    let init = [10; 3];
-    println!("Array initialize index 0 is {}", init[0]);
-
-    // array type is static, dynamic array type is `vector`.
 }
 
 fn string_type() {
@@ -327,5 +318,68 @@ fn enum_type() {
     match m2 {
         Message::Move { x, y } => println!("Read Move fields, x: {}, y: {}", x, y),
         _ => println!("No match pattern"),
+    }
+
+    // Rust drop null concept, use Option enum (included in prelude) to handle null, field is Some、None
+    // enum Option<T> {
+    //     Some(T),
+    //     None,
+    // }
+    let five = Some(5);
+    let plus_result = plus_one(five);
+    let none = plus_one(None);
+    println!("five plus one result is {:?}, None plus one result is {:?}", plus_result, none);
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        Some(i) => Some(i + 1),
+        None => None,
+    }
+}
+
+fn array_type() {
+    println!("------ array type ------");
+
+    // In Rust have two types of arrays:
+    // - fixed length: array, store in stack
+    // - dynamic length: vector, store in heap
+
+    // array type
+    let array = [1, 3, 5, 7, 9];
+    println!("Array index 3 is {}", array[3]);
+
+    // initialize array, equal [10, 10, 10]
+    let init = [10; 3];
+    println!("Array initialize index 0 is {}", init[0]);
+
+    // Why None-primitive type array can't initialize like this?
+    // let str_array = [String::from("rust"); 4];
+    // Primitive type already Copy trait, so it's value can be copied.
+    // None-primitive type can't be copied, need create one by one.
+
+    // None-primitive type member array, e.g. String
+    let str_array: [String; 4] = [
+        String::from("i love rust"),
+        String::from("i love rust"),
+        String::from("i love rust"),
+        String::from("i love rust"),
+    ];
+    println!("String array index 2 is {}", str_array[2]);
+    // Use inner method to initialize None-primitive array
+    let str_array_2: [String; 8] = std::array::from_fn(|_i| String::from("i love rust"));
+    println!("String array 2 index 2 is {}", str_array_2[2]);
+
+    // Slice
+    println!("Slice array is {:?}", &array[1..3]);
+    let slice = &array[0..3];
+    println!("Slice is {:?}", slice);
+
+    // two-dimensional array
+    let two_dimensional_array: [[u8; 3]; 2] = [[1, 2, 3], [4, 5, 6]];
+    for i in two_dimensional_array {
+        for j in i.iter() {
+            println!("Two-dimensional array is {}", j);
+        }
     }
 }
