@@ -2,7 +2,8 @@ fn main() {
     branch_flow_if();
     loop_flow_loop();
     loop_flow_while();
-    loop_flow_for()
+    loop_flow_for();
+    pattern_match()
 }
 
 fn branch_flow_if() {
@@ -118,4 +119,8 @@ fn loop_flow_for() {
     for i in 1..=5 {
         println!("value from 1..=5, item is {}", i)
     }
+}
+
+fn pattern_match() {
+
 }
